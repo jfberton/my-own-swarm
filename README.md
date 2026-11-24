@@ -6,47 +6,55 @@ Plugin de orquestación autónoma de enjambres de agentes para Google Antigravit
 
 ## 🎯 ¿Por qué está diagramado de esta manera?
 
-El desarrollo de software asistido por agentes suele enfrentarse a **tres problemas críticos** que impiden delegar tareas complejas con verdadera confianza:
+El desarrollo de software asistido por agentes suele enfrentarse a **cuatro problemas críticos** que impiden delegar tareas complejas con verdadera confianza:
 
-1. **La "Erosión de Tests" (Sesgo de Confirmación):**  
+1. **Reinventar la Rueda e Inconsistencia (Falta de Contexto):**  
+   Cuando un agente recibe un pedido (por ejemplo, *"haz una tabla con filtros"* o *"crea un popup"*), suele inventar componentes desde cero. El resultado: una tabla que no se parece en nada a las otras del proyecto, duplicación de utilitarios de formateo y estilos desconectados del design system.
+2. **La "Erosión de Tests" (Sesgo de Confirmación):**  
    Cuando el mismo agente genera el código y los tests, o cuando tiene permisos para editar las pruebas ante un fallo, el modelo tiende a **modificar o "ablandar" los tests** para que den verde, en lugar de corregir los errores de su propia implementación.
-2. **"Código que funciona" vs. "Código mantenible":**  
+3. **"Código que funciona" vs. "Código mantenible":**  
    Un modelo de lenguaje puede hacer pasar el 100% de los tests unitarios creando una función monolítica de 400 líneas con dependencias acopladas y sin separación de capas. Los tests solo validan *correctitud funcional*, no *salud arquitectónica*.
-3. **El humano como cuello de botella:**  
-   Si el desarrollador humano debe actuar como compilador, linter y revisor línea por línea de cada sugerencia de la IA, la fatiga cognitiva anula cualquier ganancia de velocidad.
+4. **El humano como cuello de botella o adivinador:**  
+   Si el agente asume requerimientos a ciegas, genera código que no responde a lo que el usuario realmente quería. Y si el humano debe revisar cada línea de código manualmente, la fatiga cognitiva destruye la productividad.
 
 ---
 
 ## 💡 ¿Qué se logra trabajando de esta manera?
 
-Al estructurar el enjambre con **separación estricta de roles, desarrollo Contract-First y bucle de feedback determinista**, se consiguen ventajas operativas claras:
+Al estructurar el enjambre con **exploración previa de patrones, alineación interactiva ("Grill-Me"), desarrollo Contract-First y bucle de feedback determinista**, se consiguen ventajas operativas claras:
 
+* 🔍 **Inspección de Patrones y Reutilización (DRY):**  
+  Antes de escribir una sola línea, el orquestador analiza el repositorio para detectar cómo están hechas las otras tablas, popups, hooks y filtros. Reutiliza componentes y utilitarios existentes en lugar de duplicarlos.
+* 🎙️ **Alineación Previa ("Grill-Me"):**  
+  El coordinador entrevista al usuario con preguntas breves e incisivas sobre decisiones de arquitectura, diseño y casos límite antes de disparar a los agentes. Cero suposiciones a ciegas.
 * 🔒 **Tests Inmutables y Objetivos:**  
-  El agente de QA redacta las pruebas basándose **únicamente en la especificación técnica**, antes de que se escriba el código. Los agentes de desarrollo tienen acceso de **solo lectura** a la carpeta de tests: si un test falla, están forzados a reparar su código fuente.
-* 🏛️ **SOLID y Clean Architecture por Defecto:**  
-  Los desarrolladores aplican principios de responsabilidad única, inversión de dependencias e interfaces delgadas desde la primera línea. La arquitectura no es una ocurrencia tardía, sino parte integral del proceso.
+  El agente de QA redacta las pruebas basándose **únicamente en la especificación técnica acordada**, antes de que se escriba el código. Los desarrolladores tienen acceso de **solo lectura** a la carpeta de tests: si un test falla, están forzados a reparar su código fuente.
+* 🏛️ **SOLID y Diseño Modular por Defecto:**  
+  Los desarrolladores aplican principios de responsabilidad única, inversión de dependencias y componentes desacoplados desde la primera línea. Si se crea un nuevo control, se diseña para ser reutilizable en otras vistas de la aplicación.
 * 🛡️ **Resiliencia con Checkpoint & Rollback:**  
   En el instante en que los tests pasan por primera vez, el sistema crea un *checkpoint* en Git. Si el refactor arquitectónico posterior se complica o rompe los tests tras 2 intentos, el sistema ejecuta un rollback automático al estado funcional estable y registra la deuda técnica pendiente, **garantizando que el espacio de trabajo nunca quede roto**.
-* ⚡ **Velocidad sin pérdida de control:**  
-  La validación se vuelve determinista (linters, compiladores, tests unitarios). El humano interviene al principio (definiendo la meta) y al final (evaluando el resultado integrado), liberándose de la microgestión intermedia.
 
 ---
 
-## 🔄 El Pipeline de 5 Fases
+## 🔄 El Pipeline de 6 Fases
 
 ```
-[Usuario] ──► FASE 1: Especificación del Contrato (Analista)
-                   │  Define 'CONTRACT_SPEC.md' con tipos, interfaces y criterios.
+[Usuario] ──► FASE 0: Detección de Patrones & Alineación ("Grill-Me")
+                   │  Inspecciona el codebase (tablas, popups, hooks existentes).
+                   │  Entrevista al usuario con preguntas clave antes de lanzar agentes.
+                   ▼
+              FASE 1: Especificación del Contrato (Analista)
+                   │  Define 'CONTRACT_SPEC.md' con tipos, interfaces y plan de reutilización.
                    ▼
               FASE 2: Tests Inmutables (QA Adversarial)
                    │  Escribe tests rigurosos contra la spec. Se congelan en Git.
                    ▼
               FASE 3: Implementación Limpia + Checkpoint (Dev Front / Back)
-                   │  Desarrollo guiado por tests (TDD) aplicando SOLID.
+                   │  Desarrollo guiado por tests (TDD) aplicando SOLID y DRY.
                    │  Al dar verde ──► git commit "checkpoint: functional pass"
                    ▼
               FASE 4: Auditoría Arquitectónica y Guardrails (Gatekeeper)
-                   │  Audita SOLID y complejidad ciclomática.
+                   │  Audita SOLID, DRY (no duplicar código) y complejidad.
                    │  ├── Pasa ──────► Aprobado con Arquitectura Limpia
                    │  └── Falla 2x ──► Rollback al Checkpoint + Alerta de Deuda Técnica
                    ▼
@@ -103,8 +111,8 @@ git pull
 
 Una vez instalado, el plugin se descubre automáticamente. En cualquier conversación o proyecto en Antigravity, puedes pedir:
 
-> *"Usa **my-own-swarm** para implementar el endpoint de autenticación con JWT"*
->
 > *"Orquesta con **my-own-swarm** la creación del componente de tabla con paginación y filtros"*
+>
+> *"Usa **my-own-swarm** para implementar el endpoint de reportes y exportación en CSV"*
 
-El Coordinador tomará el control automáticamente y ejecutará el pipeline completo de las 5 fases.
+El Coordinador iniciará la **Fase 0**, analizará tu codebase para ver cómo están implementados otros componentes similares, te hará las preguntas necesarias de diseño/comportamiento (entrevista Grill-Me) y luego lanzará y orquestará de forma autónoma al resto del enjambre.

@@ -1,11 +1,15 @@
 # Rol: Desarrollador Limpio (`role-clean-developer`)
 
 ## Misión
-Implementar el código fuente (Backend o Frontend) para que la suite de pruebas del QA pase al 100%, aplicando **SOLID y Clean Architecture desde el primer token**.
+Implementar el código fuente (Backend o Frontend) para que la suite de pruebas del QA pase al 100%, aplicando **SOLID, Clean Architecture y Reutilización (DRY) desde el primer token**.
 
 ## Reglas Innegociables
 1. **Tests Inmutables:** Tienes permiso de **SOLO LECTURA** sobre los tests. Si un test falla, tu código está mal o incompleto. Arregla tu código; JAMÁS toques o suavices un test.
-2. **SOLID por Defecto:**
+2. **Reutilización y Consistencia de Código (DRY):**
+   - **No reinventar la rueda:** Si el proyecto ya tiene un componente de botón, modal, input, paginador o formato de fecha/moneda, **debes reutilizarlo**.
+   - **Consistencia de diseño:** El nuevo código debe verse y comportarse como el resto del proyecto (mismos estilos, librerías y patrones de estado).
+   - **Diseñar para reusar:** Todo nuevo componente genérico (tablas, filtros, modales) debe crearse modular y desacoplado, exponiendo interfaces/props limpias para que otras partes de la app puedan consumirlo en el futuro.
+3. **SOLID por Defecto:**
    - **S (Single Responsibility):** Un componente/clase/módulo = una sola razón para cambiar. Separa lógica de negocio, acceso a datos y presentación.
    - **O (Open/Closed):** Usa polimorfismo, mapas de handlers o patrones de estrategia en lugar de condicionales masivos (`switch` o `if/else` gigantes).
    - **L (Liskov):** Cumple con las interfaces y contratos sin sorpresas ni excepciones inesperadas.
@@ -18,7 +22,7 @@ Implementar el código fuente (Backend o Frontend) para que la suite de pruebas 
   - `Service / UseCase`: Contiene la lógica pura de negocio.
   - `Repository / Adapter`: Interactúa con base de datos o APIs externas.
 - **Frontend:**
-  - `Presentation / UI Components`: Puramente presentacionales (reciben props, emiten eventos).
+  - `Presentation / UI Components`: Puramente presentacionales (reciben props, emiten eventos). Reutilizan el design system existente.
   - `Custom Hooks / Stores`: Manejan el estado y la lógica de consumo de API.
   - `API Client`: Centraliza las llamadas al contrato del backend.
 
