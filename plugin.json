@@ -1,0 +1,11 @@
+{
+  "name": "my-own-swarm",
+  "displayName": "My Own Swarm",
+  "version": "1.0.0",
+  "description": "Orquestación autónoma de enjambres de agentes con desarrollo Contract-First, QA adversarial con tests inmutables, SOLID por defecto y verificación arquitectónica con checkpoint/rollback.",
+  "suggestedPrompts": [
+    "Usa my-own-swarm para implementar esta funcionalidad",
+    "Orquesta un enjambre para crear el módulo de...",
+    "Inicia my-own-swarm con specs, tests inmutables y revisión SOLID"
+  ]
+}
