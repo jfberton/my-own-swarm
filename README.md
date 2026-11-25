@@ -33,6 +33,8 @@ Al estructurar el enjambre con **exploración previa de patrones, alineación in
   Los desarrolladores aplican principios de responsabilidad única, inversión de dependencias y componentes desacoplados desde la primera línea. Si se crea un nuevo control, se diseña para ser reutilizable en otras vistas de la aplicación.
 * 🛡️ **Resiliencia con Checkpoint & Rollback:**  
   En el instante en que los tests pasan por primera vez, el sistema crea un *checkpoint* en Git. Si el refactor arquitectónico posterior se complica o rompe los tests tras 2 intentos, el sistema ejecuta un rollback automático al estado funcional estable y registra la deuda técnica pendiente, **garantizando que el espacio de trabajo nunca quede roto**.
+* 📊 **Panel de Control en Vivo (Swarm Board Nativo):**  
+  Reutiliza la pantalla nativa de Antigravity sin reinventar la rueda: abre un panel lateral con un clic (`open_board`) donde puedes ver en tiempo real el estado de cada agente (`working`, `waiting`), los mensajes y acuerdos que se dejan entre sí y el avance de la tarea en vivo.
 
 ---
 

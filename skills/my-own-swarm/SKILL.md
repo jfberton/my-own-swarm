@@ -17,6 +17,7 @@ Esta skill convierte al agente principal en el **Coordinador y Arquitecto del En
 3. **Tests Adversariales Inmutables:** El agente de QA escribe los tests basados en el contrato. Los desarrolladores (Front y Back) tienen prohibido modificar los tests ("no ablandar los tests").
 4. **SOLID y Reutilización (DRY) por Defecto:** Los desarrolladores aplican principios SOLID y reutilizan utilitarios y componentes preexistentes desde el inicio.
 5. **Resiliencia con Checkpoint y Rollback:** Una vez que los tests dan verde, se crea un checkpoint en Git. Si el refactor arquitectónico falla tras 2 intentos, se hace rollback automático al checkpoint funcional y se etiqueta la deuda técnica.
+6. **Visibilidad en Vivo (Swarm Board Nativo):** Aprovecha la herramienta y tablero nativo `swarm` de Antigravity para que el usuario pueda abrir el panel de control (`open_board`) y ver en tiempo real el estado (`working`/`waiting`) y los mensajes cruzados entre agentes.
 
 ---
 
@@ -58,6 +59,7 @@ Esta skill convierte al agente principal en el **Coordinador y Arquitecto del En
 ### Fase 1: Especificación del Contrato (Analista)
 - **Rol:** Cargar [role-analyst.md](./references/role-analyst.md).
 - **Acción:** Con las respuestas del usuario y los patrones detectados, crear el archivo `CONTRACT_SPEC.md` en el repositorio.
+- **Inicialización del Swarm Board:** El coordinador titula el enjambre con `swarm{action:"title", title:"..."}` y entrega el enlace `open_board` en el chat para que el usuario pueda abrir el panel visual lateral.
 - **Validación:** El contrato incluye:
   - Plan de componentes y utilitarios existentes a **reutilizar**.
   - Firmas de endpoints/props, esquemas de datos y validaciones.
